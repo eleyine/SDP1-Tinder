@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block content %}
+    {# {% include "navigation.html" %} #}
+    {# {% include "header.html" %} #}
+{% endblock %}
+
+{% block scripts %}
+
+{% compress js %}
+<!-- Your extra javascript here -->
+{% endcompress %}
+
+{% endblock %}

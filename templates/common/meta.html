@@ -1,0 +1,29 @@
+{% load staticfiles %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!-- Current Language: {{ LANGUAGE_CODE }} -->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="">
+<meta http-equiv="content-language" content="{{ LANGUAGE_CODE }}">
+<meta name="description" content="Boilerplate Project Description">
+
+<meta name="msapplication-TileColor" content="#1e699c">
+<meta name="theme-color" content="#1e699c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<!-- Open Graph -->
+<!-- <head prefix="og: http://ogp.me/ns#">
+<meta property="og:description" content="">
+<meta property="og:title" content="">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="{% static "images/meta/preview-image.jpg" %}">
+<meta property="og:image:type" content="image/jpeg"> -->
+{% block extra_meta %}{% endblock %}

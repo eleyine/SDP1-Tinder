@@ -1,0 +1,44 @@
+# Python compiled byte code
+*.pyc
+
+# SQLite3 database
+*.sqlite3
+
+# Node modules
+node_modules/
+
+# Bower components
+static/bower_components/
+
+# Uglified JavaScript
+dist/
+
+# Staticfiles
+assets/
+media/
+static/CACHE/
+static/images/_*
+
+# Migrations
+*/migrations*
+migrate.sh
+
+# Fixtures
+*/fixtures
+
+# Deployment settings
+django_boilerplate/settings/*_private.py
+django_boilerplate/settings/private.py
+django_boilerplate/settings/archive/
+server_files/logs/
+server_files/fab_config.py
+server_files/tmp.txt
+server_files/dropbox
+
+# Internationalization
+*.mo
+
+# Celery
+celerybeat.pid
+celerybeat-schedule.db
+tmp/

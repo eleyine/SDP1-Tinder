@@ -1,0 +1,28 @@
+{% load compress %}
+{% load staticfiles %}
+
+{% compress js %}
+
+<!-- jQuery stuff -->
+<script type="text/javascript" src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'bower_components/jquery-cookie/jquery.cookie.js' %}"></script>
+
+<!-- Pretty Responsive Grids: Dessandro <3 -->
+<script type="text/javascript" src="{% static 'bower_components/jquery-masonry/dist/masonry.pkgd.min.js' %}"></script>
+
+<!-- Twitter Bootstrap JavaScript -->
+<script type="text/javascript" src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
+<!-- Plugin JavaScript -->
+<script src="{% static 'bower_components/jquery-easing/jquery.easing.min.js' %}"></script>
+<script src="{% static 'bower_components/wow/dist/wow.min.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js' %}"></script>
+
+{% endcompress %}
+
+<!-- Internationalization -->
+<!-- <script type="text/javascript" src="{% url 'django.views.i18n.javascript_catalog' %}"></script> -->
+
+{% compress js %}
+<script type="text/javascript" src="{% static 'javascripts/common.js' %}{% if debug %}?v=00001{% endif %}"></script>
+{% endcompress %}

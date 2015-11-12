@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+<html lang="{{LANGUAGE_CODE}}">
+
+<head>
+  <title>My Website</title>
+  <base href="/" />
+  {% include 'common/favicons.html' %}
+  {% include 'common/meta.html' %}
+  {% include 'common/fonts.html' %}
+  {% include 'common/stylesheets.html' %}
+  {% block styles %}{% endblock %}
+  {% include 'common/html5.html' %}
+  {% include 'common/analytics.html' %}
+</head>
+
+<body id="page-top">
+
+    {% block content %}
+      <div class="container main-content">
+        <p> There is nothing here yet. Let's start building! </p>
+      </div>
+      <!-- Debug Toolbar -->
+    {% endblock %}
+
+  {% include 'common/javascripts.html' %}
+  {% block scripts %}
+    <!-- Your extra javascript here -->
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,12 @@
+{% load compress %}
+{% load staticfiles %}
+
+{% compress css %}
+
+<!-- Twitter Bootstrap -->
+<link rel="stylesheet" type="text/css" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}" />
+
+<!-- Custom CSS -->
+<!-- ?v=00001 ensures it doesn't get cached. Should remove this in production. -->
+<link rel="stylesheet" type="text/css" href="{% static 'stylesheets/css/styles.css' %}?v=00001" />
+{% endcompress %}
