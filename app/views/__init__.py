@@ -1,1 +1,1 @@
-import api
+from main import *

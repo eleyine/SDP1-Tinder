@@ -19,8 +19,8 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += i18n_patterns(
-    url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^app/', include('app.urls')),
+    # url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^', include('app.urls')),
 )
 # Javascript Internationalization Support
 from django.views.i18n import javascript_catalog

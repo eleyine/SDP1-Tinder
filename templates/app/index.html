@@ -1,16 +1,39 @@
-{% extends "_base.html" %}
+{% extends "common/_base.html" %}
 {% load compress %}
 {% load staticfiles %}
 
+{% block styles %}
+<link rel="stylesheet" href="{% static 'bower_components/swing/examples/card-stack/card-stack.css' %}">
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+{% endblock %}
+
 {% block content %}
-    {# {% include "navigation.html" %} #}
-    {# {% include "header.html" %} #}
+
+<body>
+    <div id="viewport">
+        <ul class="stack">
+            <li class="clubs">♣</li>
+            <li class="diamonds">♦</li>
+            <li class="hearts">♥</li>
+            <li class="spades">♠</li>
+        </ul>
+    </div>
+    <div id="source">
+        <p>Drag the playing cards out of the stack and let go. Dragging them beyond the desk will throw them out of the stack. If you drag too little and let go, the cards will spring back into place. You can throw cards back into the stack after you have thrown them out.</p>
+        <p>Open the <a href="https://developer.chrome.com/devtools/docs/console">Console</a> to view the associated events.<p>
+        <p>Demonstration of <a href="https://github.com/gajus/swing">https://github.com/gajus/swing</a> implementation.</p>
+    </div>
+</body>
+
 {% endblock %}
 
 {% block scripts %}
 
 {% compress js %}
 <!-- Your extra javascript here -->
+<script src="{% static 'bower_components/swing/dist/browser/swing.js' %}"></script>
+<script src="{% static 'javascripts/tinder.js'%}"></script>
+
 {% endcompress %}
 
 {% endblock %}

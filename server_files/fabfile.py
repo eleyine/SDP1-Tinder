@@ -20,7 +20,7 @@ import tempfile, os, sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 LOCAL_DJANGO_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+DJANGO_PROJECT_NAME = 'sdp1_tinder'
 if not os.path.exists('fab_config.py'):
     print 'Please create a fab_config.py file, see fab_config_example.py'
     sys.exit()
@@ -65,8 +65,10 @@ AUTO_ANSWER_PROMPTS = True
 if AUTO_ANSWER_PROMPTS:
     prompts = {
         'Do you want to continue [Y/n]? ': 'Y',
+        'Do you want to continue? [Y/n] ': 'Y',
         '? May bower anonymously report usage statistics to improve the tool over time? (Y/n)': 'Y',
         "Type 'yes' to continue, or 'no' to cancel: ": 'yes',
+        '? May bower anonymously report usage statistics to improve the tool over time? (Y/n) ': 'Y',
         'Would you like to create one now? (yes/no): ': 'no'
         }
 else:
@@ -112,6 +114,30 @@ def _write_file(local_path, remote_path, options):
 
     print 'Overwriting %s' % (remote_path)
     put(TMP_PATH, remote_path)
+
+def install_packages(deploy_to=DEFAULT_DEPLOY_TO):
+    env.hosts = DEPLOYMENT_HOSTS[deploy_to]
+    packages = (
+            'git',
+            'npm',
+            'libpq-dev',
+            'python-dev',
+            'postgresql',
+            'libpq-dev python-dev',
+            'libpq-dev',
+            'nginx',
+            'gunicorn',
+            'sqlite3',
+            'node-less',
+            'gettext'
+        )
+
+    with settings(warn_only=True):
+        with settings(prompts=prompts):
+            # Require some Debian/Ubuntu packages
+            for package in packages:
+                sudo('apt-get install %s' % (package))
+            sudo('pip install psycopg2')
 
 def setup(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, branch=DEFAULT_BRANCH):
     """
