@@ -3,7 +3,7 @@ from __future__ import absolute_import
 from os.path import join, normpath
 from os import environ
 
-from django_boilerplate.settings.common import DJANGO_ROOT
+from sdp1_tinder.settings.common import DJANGO_ROOT
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/

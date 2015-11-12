@@ -75,9 +75,9 @@ else:
 
 ########### PATH AND PROJECT NAME CONFIGURATION
 # Should not change if you do not modify this GitHub project
-GITHUB_PROJECT = 'https://github.com/eleyine/Django-Boilerplate.git'
+GITHUB_PROJECT = 'https://github.com/eleyine/SDP1-Tinder.git'
 DJANGO_PROJECT_DIR = '/home/django'
-DJANGO_PROJECT_NAME = 'django_boilerplate'
+DJANGO_PROJECT_NAME = 'sdp1_tinder'
 DJANGO_APP_NAME = 'app'
 DJANGO_PROJECT_PATH = os.path.join(DJANGO_PROJECT_DIR, DJANGO_PROJECT_NAME)
 APPS = ('app',)

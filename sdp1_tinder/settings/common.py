@@ -193,7 +193,7 @@ DJANGO_APPS = (
     # 'django.contrib.admindocs',
 
     # Third-party apps
-    # 'rest_framework',
+    'rest_framework',
     'compressor',
     'crispy_forms',
     # 'djstripe'

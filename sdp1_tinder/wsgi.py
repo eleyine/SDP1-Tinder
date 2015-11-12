@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_boilerplate.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sdp1_tinder.settings")
 # see wearhacks_website/settings/__init__.py
 os.environ.setdefault("APP_ENV", "prod")
 

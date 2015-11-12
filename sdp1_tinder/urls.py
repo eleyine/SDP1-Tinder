@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.conf.urls.i18n import i18n_patterns
 
-from django_boilerplate import views
+from sdp1_tinder import views
 
 from django.contrib import admin
 

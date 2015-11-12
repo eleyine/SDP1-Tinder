@@ -3,7 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_boilerplate.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sdp1_tinder.settings")
     # see django_boilerplate/settings/__init__.py
     os.environ.setdefault("APP_ENV", "dev")
 
