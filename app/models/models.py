@@ -70,7 +70,7 @@ class SwipeAction(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     event = models.ForeignKey('Event')
-    is_completed =  models.BooleanField(default=False)
+    is_valid = models.BooleanField(default=False)
     
     class Meta:
         app_label = 'app'
@@ -90,7 +90,7 @@ class SwipeAction(models.Model):
 
 class Event(models.Model):
 
-    participants = models.ManyToManyField('UserProfile')
+    participants = models.ManyToManyField('UserProfile', blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

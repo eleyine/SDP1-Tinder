@@ -3,6 +3,12 @@ from app.api import handlers
  
 urlpatterns = patterns('',
     # url(r'^$', views.index, name='index'),
-    url(r'users/$', handlers.user_list),
-    url(r'users/(?P<pk>[0-9]+)/$', handlers.user_detail),
+    url(r'users/$', handlers.UserProfileList.as_view(), name='user-list'),
+    url(r'users/(?P<pk>\d+)/$', handlers.UserProfileDetail.as_view(), name='user-detail'),
+    url(r'swipes/$', handlers.SwipeActionDetail.as_view(), name='swipe-action-list'),
+    url(r'swipes/(?P<pk>\d+)/$', handlers.SwipeActionDetail.as_view(), name='swipe-action-detail'),
+    url(r'swipe/user/(?P<uid>\d+)/right/$', handlers.SwipeActionOnUser.as_view(), {'is_right': True}, name='swipe-right'),
+    url(r'swipe/user/(?P<uid>\d+)/left/$', handlers.SwipeActionOnUser.as_view(), {'is_right': False}, name='swipe=left'),
+    # url(r'stats/(?P<event_pk>\d+)/$', handlers.stats),
+    # url(r'events/(?P<event_pk>\d+)/$', handlers.event_list),
 ) 

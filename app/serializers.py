@@ -24,7 +24,6 @@ class SwipeActionSerializer(serializers.ModelSerializer):
             'on_user', 
             'is_right',
             'event',
-            'is_completed',
             )
 
 class EventSerializer(serializers.ModelSerializer):
