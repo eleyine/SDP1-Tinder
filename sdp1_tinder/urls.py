@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^grappelli/', include('grappelli.urls')), # grappelli URLS
     url(r'^admin/', include(admin.site.urls)),
     url(r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^api/', include('app.api.urls')),
 )
 
 urlpatterns += i18n_patterns(
