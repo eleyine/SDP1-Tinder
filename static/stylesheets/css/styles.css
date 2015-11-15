@@ -1,1 +1,6 @@
 /* Your styles here. */
+
+.stack .card img {
+    width: 300px;
+    height: auto;
+}
