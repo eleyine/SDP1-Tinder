@@ -16,7 +16,7 @@ class UserProfile(models.Model):
         )
 
     first_name = models.CharField(max_length=30, validators=[AlphaRegexValidator])
-    last_name = models.CharField(max_length=30, validators=[AlphaRegexValidator])
+    last_name = models.CharField(max_length=30, validators=[AlphaRegexValidator], blank=True)
 
     GENDER_CHOICES = (
         ('M', _('Male')),
@@ -44,7 +44,7 @@ class UserProfile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def full_name(self):
-        return '%s %s' % (
+        return u'%s %s' % (
             self.first_name.encode('utf-8'), 
             self.last_name.encode('utf-8')
             )
@@ -59,7 +59,15 @@ class UserProfile(models.Model):
         ordering = ('category', 'last_name', 'updated_at', )
 
     def __unicode__(self):
-        return self.full_name()
+        try:
+            print type(self.full_name())
+            print self.full_name()
+            self.full_name()
+            # return 'yo'
+            return self.full_name().decode('utf-8')
+        except:
+            return 'yo'
+        # return self.full_name().encode('ascii', 'ignore').decode('ascii')
 
 class SwipeAction(models.Model):
 
@@ -90,7 +98,8 @@ class SwipeAction(models.Model):
 
 class Event(models.Model):
 
-    participants = models.ManyToManyField('UserProfile', blank=True)
+    participants = models.ManyToManyField('UserProfile', blank=True,
+        related_name='events')
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
