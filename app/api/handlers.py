@@ -83,6 +83,7 @@ class SwipeActionOnUser(APIView):
     def post(self, request, format=None, **kwargs):
 
         is_right = kwargs.get('is_right', None)
+        is_vote = kwargs.get('is_vote', False)
         user_pk = self.kwargs.get('uid', None)
 
 
@@ -95,16 +96,15 @@ class SwipeActionOnUser(APIView):
         swipe_action_data = {
             'on_user': user_pk,
             'is_right': is_right,
+            'is_vote': is_vote,
             'event': active_event.pk
         }
         serializer = SwipeActionSerializer(data=swipe_action_data)
         if serializer.is_valid():
             serializer.save()
-            print 'saving swipe action!'
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             print 'serializer invalid!', serializer.errors
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, format=None, **kwargs):

@@ -13,6 +13,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'age',
             'num_right_swipes',
             'num_left_swipes',
+            'num_votes',
             'num_views',
             'picture',
             )
@@ -23,6 +24,7 @@ class SwipeActionSerializer(serializers.ModelSerializer):
         fields = (
             'on_user', 
             'is_right',
+            'is_vote',
             'event',
             )
 

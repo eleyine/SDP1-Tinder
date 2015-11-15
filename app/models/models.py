@@ -33,6 +33,7 @@ class UserProfile(models.Model):
 
     num_right_swipes = models.SmallIntegerField(default=0)
     num_left_swipes = models.SmallIntegerField(default=0)
+    num_votes = models.SmallIntegerField(default=0)
     num_views = models.SmallIntegerField(default=0)
 
     IMAGE_FOLDER = 'profile-pictures/'
@@ -73,6 +74,7 @@ class SwipeAction(models.Model):
 
     on_user = models.ForeignKey('UserProfile')
     is_right = models.BooleanField(default=False)
+    is_vote = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

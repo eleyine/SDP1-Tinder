@@ -7,8 +7,10 @@ urlpatterns = patterns('',
     url(r'users/(?P<pk>\d+)/$', handlers.UserProfileDetail.as_view(), name='user-detail'),
     url(r'swipes/$', handlers.SwipeActionDetail.as_view(), name='swipe-action-list'),
     url(r'swipes/(?P<pk>\d+)/$', handlers.SwipeActionDetail.as_view(), name='swipe-action-detail'),
-    url(r'swipe/user/(?P<uid>\d+)/right/$', handlers.SwipeActionOnUser.as_view(), {'is_right': True}, name='swipe-right'),
-    url(r'swipe/user/(?P<uid>\d+)/left/$', handlers.SwipeActionOnUser.as_view(), {'is_right': False}, name='swipe=left'),
+    url(r'swipe/user/(?P<uid>\d+)/right/$', handlers.SwipeActionOnUser.as_view(), {'is_right': True, 'is_vote': False}, name='swipe-right'),
+    url(r'swipe/user/(?P<uid>\d+)/left/$', handlers.SwipeActionOnUser.as_view(), {'is_right': False, 'is_vote': False}, name='swipe-left'),
+    url(r'vote/user/(?P<uid>\d+)/$', handlers.SwipeActionOnUser.as_view(), {'is_right': False, 'is_vote': True}, name='vote'),
+
     # url(r'stats/(?P<event_pk>\d+)/$', handlers.stats),
     # url(r'events/(?P<event_pk>\d+)/$', handlers.event_list),
 ) 
