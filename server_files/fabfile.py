@@ -222,6 +222,7 @@ def setup(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, branch=DEFAULT_BRANCH)
         update_permissions(setup=True)
 
 def compile_messages(mode=DEFAULT_MODE):
+    return
     env_variables = _get_env_variables(mode=mode) 
     with shell_env(**env_variables):
         # with cd(DJANGO_PROJECT_PATH):
@@ -398,15 +399,18 @@ def migrate(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, env_variables=None,
 
             env.user = 'django'
             env.password = DJANGO_PASS
-
-            print '> Checking database backend'
-            run('echo "from django.db import connection; connection.vendor" | python manage.py shell')
-
             # get django database pass, this is kind of hacky but wtv
             private_settings = _get_private_settings(deploy_to=deploy_to)
             django_db_pass = private_settings.DB_PASS
+
+            print '> Checking database backend'
+            # with settings(prompts={
+            #     "Login password for 'django': ": django_db_pass}):
+            #     run('echo "from django.db import connection; connection.vendor" | python manage.py shell')
+
+
             with settings(prompts={
-                "Password for user django: ": django_db_pass}):
+                "Login password for 'django': ": django_db_pass}):
                 if reset_db:
                     print '> Deleting database'
                     if mode == 'dev':
@@ -416,21 +420,21 @@ def migrate(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, env_variables=None,
                             run('rm -rf app/migrations')
                         run('python manage.py sqlclear app | python manage.py dbshell ')
 
-                run('python manage.py makemigrations')
+                sudo('python manage.py makemigrations')
                 if setup:
-                    run('python manage.py migrate --fake-initial') 
-                    run('python manage.py makemigrations app')
-                    run('python manage.py migrate app') 
+                    sudo('python manage.py migrate --fake-initial') 
+                    sudo('python manage.py makemigrations app')
+                    sudo('python manage.py migrate app') 
                 elif reset_db:
-                    run('python manage.py migrate --fake')     
-                    run('python manage.py makemigrations app')
-                    run('python manage.py migrate --fake-initial')
-                    run('python manage.py migrate')
+                    sudo('python manage.py migrate --fake')     
+                    sudo('python manage.py makemigrations app')
+                    sudo('python manage.py migrate --fake-initial')
+                    sudo('python manage.py migrate')
                 else:
-                    run('python manage.py migrate')
+                    sudo('python manage.py migrate')
             if mode == 'dev' or reset_db:
                 if generate_dummy_data or reset_db:
-                    run('python manage.py generate_models 3 --reset')
+                    sudo('python manage.py generate_models 3 --reset')
             env.user = 'root'
             
             if mode == 'prod':
