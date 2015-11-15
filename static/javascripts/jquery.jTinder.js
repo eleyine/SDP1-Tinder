@@ -42,6 +42,7 @@
 
 			container = $(">ul", element);
 			panes = $(">ul>li", element);
+			num_panes = panes.length;
 			pane_width = container.width();
 			pane_count = panes.length;
 			current_pane = panes.length - 1;
@@ -53,8 +54,15 @@
 		},
 
 		showPane: function (index) {
-			panes.eq(current_pane).hide();
-			current_pane = index;
+			// panes.eq(current_pane).hide();
+			// $('#tinderslide .in-the-game').removeAttr("style");
+			console.log("Num panes: " + num_panes);
+			current_pane = index % num_panes;
+			// if (current_pane < 0)
+			// 	current_pane = current_pane + 5;
+			console.log("Current pane = " + current_pane);
+			console.log("Panes");
+			console.log(panes);
 		},
 
 		next: function () {
@@ -62,18 +70,26 @@
 		},
 
 		dislike: function() {
-			panes.eq(current_pane).animate({"transform": "translate(-" + (pane_width) + "px," + (pane_width*-1.5) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {
+			// console.log("Disiking current_pane:" + current_pane);
+			// console.log(panes.eq(current_pane).data('name'));
+			pane = $('#tinderslide .pane.top').first();
+			pane.animate({"transform": "translate(-" + (pane_width) + "px," + (pane_width*-1.5) + "px) rotate(-60deg)"}, $that.settings.animationSpeed, function () {
 				if($that.settings.onDislike) {
-					$that.settings.onDislike(panes.eq(current_pane));
+					$that.settings.onDislike(pane);
 				}
+				num_panes = num_panes - 1;
 				$that.next();
 			});
 		},
 
 		like: function() {
-			panes.eq(current_pane).animate({"transform": "translate(" + (pane_width) + "px," + (pane_width*-1.5) + "px) rotate(60deg)"}, $that.settings.animationSpeed, function () {
+			// console.log("Liking current_pane:" + current_pane);
+			// console.log(pane.data('name'));
+			pane = $('#tinderslide .pane.top').first();
+
+			pane.animate({"transform": "translate(" + (pane_width) + "px," + (pane_width*-1.5) + "px) rotate(60deg)"}, $that.settings.animationSpeed, function () {
 				if($that.settings.onLike) {
-					$that.settings.onLike(panes.eq(current_pane));
+					$that.settings.onLike(pane);
 				}
 				$that.next();
 			});
