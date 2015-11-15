@@ -27,9 +27,9 @@ migrate.sh
 */fixtures
 
 # Deployment settings
-django_boilerplate/settings/*_private.py
-django_boilerplate/settings/private.py
-django_boilerplate/settings/archive/
+sdp1_tinder/settings/*_private.py
+sdp1_tinder/settings/private.py
+sdp1_tinder/settings/archive/
 server_files/logs/
 server_files/fab_config.py
 server_files/tmp.txt
