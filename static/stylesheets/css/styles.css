@@ -72,7 +72,7 @@ body {
     height: 40px;
 }
 .wrap .pane .info .text {
-    height: 40px;
+    height: 15%;
     width: 60%;
     display: inline-block;
     float: left;
@@ -80,15 +80,17 @@ body {
     vertical-align: middle;
     margin-bottom: 0;
     color: #494949;
+    font-size: 20px;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding-bottom: 100px;
 }
 .wrap .pane .info .friends {
-    height: 40px;
+    height: 30px;
     width: 40%;
     display: inline-block;
     float: left;
     background: url('/static/images/components/tinder-info.png') no-repeat top center;
-    background-size: auto 30px;
+    background-size: auto 20px;
 }
 
 /* Tinder Slide */
@@ -220,12 +222,13 @@ body {
 
 #control {
   position: relative;
-  margin: 15px auto 0;
+  margin: 0px auto;
+  padding: 0;
   width: 270px; 
 }
   #control .button {
-    width: 105px;
-    height: 105px;
+    width: 85px;
+    height: 85px;
     background: #eee;
     position: absolute;
     top: 5px;
@@ -254,29 +257,28 @@ body {
         transform: translateY(-50%) translateX(-50%);
         font-family: 'FontAwesome'; }
   #control .no {
-    left: 8px; }
+    left: 28px; }
     #control .no .trigger:before {
-      content: "\f00d";
-      font-size: 38px;
-      font-weight: 100;
+      /*content: "\f00d";*/
+      /*font-size: 18px;*/
       color: #ff7457; }
   #control .yes {
-    right: 8px; }
+    right: 28px; }
     #control .yes .trigger:before {
-      content: "\f004";
-      font-size: 38px;
+      /*content: "\f004";*/
+      /*font-size: 38px;*/
       color: rgb(96, 221, 156);  /*#3b7; */
   }
   #control .info {
     left: calc(50% - 28px);
-    top: 37px;
+    top: 22px;
     height: 56px;
     width: 56px; }
     #control .info .trigger {
       width: 65%;
       height: 65%; }
       #control .info .trigger:before {
-        content: "\f05a";
+        /*content: "\f05a";*/
         font-size: 16px;
         color: #3498db; }
 #merci {
