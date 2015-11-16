@@ -72,12 +72,13 @@ body {
     height: 40px;
 }
 .wrap .pane .info .text {
+    background: red;
     height: 30px;
     width: 60%;
     display: inline-block;
     float: left;
     text-align: left;
-    vertical-align: middle;
+    vertical-align: top;
     margin-bottom: 0;
     color: #494949;
     font-size: 20px;
