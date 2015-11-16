@@ -33,18 +33,20 @@
             $('#merci').removeClass("hide");
             $('#merci .winner').html($(items[0]).data('name'));
             var uid = $(items[0]).data('participant-id');
-            $.ajax({
-                url: context.voteUrl(uid),
-                type: "POST",
-                data: {},
-                success: function () {
-                    console.log("Voted on participant " + uid);
-                },
-                error: function (data) {
-                    console.log("Error voting for participant " + uid);
-                    console.log(data);
-                }
-            });
+            if (typeof uid !== "undefined") {
+                $.ajax({
+                    url: context.voteUrl(uid),
+                    type: "POST",
+                    data: {},
+                    success: function () {
+                        console.log("Voted on participant " + uid);
+                    },
+                    error: function (data) {
+                        console.log("Error voting for participant " + uid);
+                        console.log(data);
+                    }
+                });
+            }
         } 
     }
 
@@ -53,19 +55,24 @@
         var onLikeOrDislike = function (isLike, item) {
             var uid = item.data('participant-id');
             var url = isLike? context.swipeRightUrl(uid): context.swipeLeftUrl(uid);
+            console.log(url);
             var swipeDirection = isLike? 'right': 'left';
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: {},
-                success: function () {
-                    console.log("Swiped " + swipeDirection + " on participant " + uid);
-                },
-                error: function (data) {
-                    console.log("Error swiping " + swipeDirection + " on participant " + uid);
-                    console.log(data);
-                }
-            });
+            console.log(typeof uid);
+            console.log(uid);
+            if (typeof uid !== "undefined") {
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {},
+                    success: function () {
+                        console.log("Swiped " + swipeDirection + " on participant " + uid);
+                    },
+                    error: function (data) {
+                        console.log("Error swiping " + swipeDirection + " on participant " + uid);
+                        console.log(data);
+                    }
+                });
+            }
         }
         $("#tinderslide").jTinder({
         	// dislike callback

@@ -13,6 +13,13 @@ from rest_framework.decorators import api_view
 from app.models import UserProfile, SwipeAction, Event
 from app.serializers import UserProfileSerializer, SwipeActionSerializer
 
+def get_active_event():
+    active_events = Event.objects.filter(is_active=True)
+    if active_events.count() == 0:
+        raise Http404('<p>No event is active.</p>')
+    else:
+        return active_events.first()
+
 class JSONResponse(HttpResponse):
     """
     An HttpResponse that renders its content into JSON.
@@ -32,6 +39,64 @@ def api_root(request, format=None):
         # 'events': reverse('event-list', request=request, format=format),
         # 'stats': reverse('stats', request=request, format=format)
     })
+
+class UserVoteStats(APIView):
+    """
+    List stats pertaining to user votes
+    """
+    def get(self, request, format=None):
+        event = get_active_event()
+        users = event.participants.order_by('-num_votes', 'first_name').all()
+        series = []
+        for i, user in enumerate(users):
+            datapoint = {
+                'name': user.full_name(), 
+                'y': user.num_votes
+                }
+            if i == 0:
+                datapoint['selected'] = True
+            series.append(datapoint)
+        return Response({'series': series })
+
+class UserSwipeStats(APIView):
+    """
+    List stats pertaining to user votes
+    """
+    def get(self, request, is_percentage=False, format=None):
+        event = get_active_event()
+        users = event.participants.order_by('-num_right_swipes', 'num_left_swipes', 'first_name').all()
+        user_data = UserProfileSerializer(users, many=True).data
+        if is_percentage:
+            for user_obj, user_dict in zip(users, user_data):
+                user_dict['right'] = user_obj.get_pct_right_swipes()
+                user_dict['left'] = 100 - user_dict['right'] if user_dict['right'] else None
+        else:
+            for user_obj, user_dict in zip(users, user_data):
+                user_dict['right'] = user_dict['num_right_swipes']
+                user_dict['left'] = user_dict['num_left_swipes']
+
+        user_data = sorted(user_data, key=lambda k: -k['right'])
+        print "USER DATA", user_data
+
+        categories = []
+        right = []
+        left = []
+        for user_obj, user_dict in zip(users, user_data):
+            categories.append(user_obj.full_name())
+            right.append(user_dict['right'])
+            left.append(user_dict['left'])
+        series = [{
+                'name': '% Right Swipes' if is_percentage else '# Right Swipes',
+                'data': right
+            }, {
+                'name': '% Left Swipes' if is_percentage else '# Left Swipes',
+                'data': left
+            }]
+        data = {
+            'series': series,
+            'categories': categories
+        }
+        return Response(data)
 
 class UserProfileList(APIView):
     """
@@ -76,7 +141,6 @@ class UserProfileDetail(APIView):
         user = self.get_object(pk)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 class SwipeActionOnUser(APIView):
         

@@ -1,0 +1,146 @@
+{% extends "common/_base.html" %}
+{% load compress %}
+{% load staticfiles %}
+
+{% block styles %}
+<style type="text/css" >
+    body {
+        overflow:scroll
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 text-center">
+                <h1>Event Stats</h1>
+            </div>
+            <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+                <div id="vote-container" style="min-width: 310px; height: 400px; margin: 0 auto">
+                </div>
+                <div id="swipe-number-container" style="min-width: 310px; height: 400px; margin: 0 auto">
+                </div>
+                <div id="swipe-percentage-container" style="min-width: 310px; height: 400px; margin: 0 auto">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<script  type="text/javascript">
+$(function () {
+    var colors = ['#ff7457', '#60dd9c'];
+
+    $.get('/api/stats/votes', function (data) {
+       $('#vote-container').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Nombre de Votes par Esclave'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b> ({point.y})'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Esclaves',
+                colorByPoint: true,
+                data: data.series
+            }]
+        });
+    }, "json");
+
+    $.get('/api/stats/swipes/percentage/', function (data) {
+        data.series.reverse();
+        $('#swipe-percentage-container').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Percentage Swipes'
+            },
+            xAxis: {
+                categories: data.categories
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '% Swipes'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            colors: colors,
+            series: data.series
+        });
+    }, "json");
+
+    $.get('/api/stats/swipes/', function (data) {
+        data.series.reverse();
+        $('#swipe-number-container').highcharts({
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Number Swipes'
+            },
+            xAxis: {
+                categories: data.categories
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '# Swipes'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: data.series,
+            colors: colors,
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            }
+        });
+    }, "json");
+    
+});
+</script>
+{% endblock %}

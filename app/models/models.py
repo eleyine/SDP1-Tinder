@@ -45,15 +45,47 @@ class UserProfile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def full_name(self):
-        return u'%s %s' % (
+        full_name = u'%s %s' % (
             self.first_name.encode('utf-8'), 
             self.last_name.encode('utf-8')
             )
-    def get_num_total_swipes(self):
-        return self.num_right_swipes + self.num_left_swipes
+        return full_name.strip()
 
-    def get_pct_right_swipes(self):
-        return self.num_right_swipes / float(self.get_num_total_swipes()) * 100
+    def get_num_right_swipes(self, event=None):
+        if event:
+            right_swipes = SwipeAction.filter(on_user=self, 
+                is_right=True, is_vote=False, event=event).count()
+        else:
+            right_swipes = self.num_right_swipes
+        return right_swipes
+
+    def get_num_left_swipes(self, event=None):
+        if event:
+            left_swipes = SwipeAction.filter(on_user=self, 
+                is_right=False, is_vote=False, event=event).count()
+        else:
+            left_swipes = self.num_left_swipes
+        return left_swipes
+
+    def get_num_total_swipes(self, event=None):
+        if event:
+            return SwipeAction.objects.filter(on_user=self, is_vote=False, event=event)
+        else:
+            return self.num_right_swipes + self.num_left_swipes
+
+    def get_num_votes(self, event=None):
+        if event:
+            return SwipeAction.objects.filter(on_user=self, is_vote=True, event=event)
+        else:
+            return self.num_votes
+
+    def get_pct_right_swipes(self, event=None):
+        total_swipes = self.get_num_total_swipes(event=event)
+        right_swipes = self.get_num_right_swipes(event=event)
+        try:
+            return right_swipes / float(total_swipes) * 100
+        except:
+            return None
 
     class Meta:
         app_label = 'app'

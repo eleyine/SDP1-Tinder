@@ -19,3 +19,10 @@ class IndexView(generic.ListView):
         participants = self.get_event().participants.all()
         return participants
 
+class StatsView(generic.TemplateView):
+    template_name = 'app/stats.html'
+
+    # def get_context_object(self, *args, **kwargs):
+    #     context = super(StatsView, self).get_context_data(**kwargs)
+    #     context['swipes'] = 
+
