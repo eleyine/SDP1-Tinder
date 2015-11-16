@@ -18,7 +18,7 @@ server {
     index index.html index.htm;
 
     client_max_body_size 4G;
-    server_name DOMAIN_NAME;
+    # server_name DOMAIN_NAME;
     # ssl_certificate /home/ssl/DOMAIN_NAME.chained.crt;
     # ssl_certificate_key /home/ssl/DOMAIN_NAME.key;
 

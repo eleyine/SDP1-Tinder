@@ -80,7 +80,7 @@ else:
 GITHUB_PROJECT = 'https://github.com/eleyine/SDP1-Tinder.git'
 DJANGO_PROJECT_DIR = '/home/django/'
 DJANGO_PROJECT_NAME = 'sdp1_tinder'
-DJANGO_APP_NAME = 'app'
+DJANGO_APP_NAME = 'sdp1_tinder'
 DJANGO_PROJECT_PATH = os.path.join(DJANGO_PROJECT_DIR, DJANGO_PROJECT_NAME + '/')
 APPS = ('app',)
 DOMAIN_NAME = 'test.example.com' # important for nginx setup
@@ -430,6 +430,7 @@ def migrate(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, env_variables=None,
                         run('python manage.py sqlclear app | python manage.py dbshell ')
 
                 run('python manage.py makemigrations')
+
                 if setup:
                     run('python manage.py migrate --fake-initial') 
                     run('python manage.py makemigrations app')
@@ -443,7 +444,7 @@ def migrate(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, env_variables=None,
                     run('python manage.py migrate')
             if mode == 'dev' or reset_db:
                 if generate_dummy_data or reset_db:
-                    sudo('python manage.py generate_models 3 --reset')
+                    run('python manage.py generate_models 3 --reset')
             env.user = 'root'
             
             if mode == 'prod':
@@ -721,6 +722,22 @@ def get_logs(deploy_to=DEFAULT_DEPLOY_TO):
         get(remote_path="/var/log/upstart/gunicorn.log", local_path="%s/gunicorn.log" % (log_dir))
         get(remote_path="/var/log/postgresql/postgresql-9.3-main.log", local_path="%s/psql.main.log" % (log_dir))
 
+def test():
+    deploy_to=DEFAULT_DEPLOY_TO
+    env_variables = _get_env_variables(mode='prod')
+
+    print '\nMigrating database as user django'
+
+    with shell_env(**env_variables):
+        with cd(DJANGO_PROJECT_PATH):
+            env.user = 'django'
+            env.password = DJANGO_PASS
+            # get django database pass, this is kind of hacky but wtv
+            private_settings = _get_private_settings(deploy_to=deploy_to)
+            django_db_pass = private_settings.DB_PASS
+            with settings(prompts={
+                "Login password for 'django': ": django_db_pass}):
+                run('python manage.py migrate --fake app')
 def all(deploy_to=DEFAULT_DEPLOY_TO, mode=DEFAULT_MODE):
     """Setup and reboot."""
     setup(deploy_to=deploy_to, mode=mode)
