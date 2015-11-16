@@ -117,13 +117,14 @@ def _write_file(local_path, remote_path, options):
 
 def install_packages(deploy_to=DEFAULT_DEPLOY_TO):
     env.hosts = DEPLOYMENT_HOSTS[deploy_to]
+    run('apt-get update')
     packages = (
             'git',
             'npm',
-            'libpq-dev',
-            'python-dev',
+            # 'libpq-dev',
+            # 'python-dev',
             'postgresql',
-            'libpq-dev python-dev',
+            # 'libpq-dev python-dev',
             'libpq-dev',
             'nginx',
             'gunicorn',
@@ -132,12 +133,13 @@ def install_packages(deploy_to=DEFAULT_DEPLOY_TO):
             'gettext'
         )
 
-    with settings(warn_only=True):
-        with settings(prompts=prompts):
-            # Require some Debian/Ubuntu packages
-            for package in packages:
-                sudo('apt-get install %s' % (package))
-            sudo('pip install psycopg2')
+    with settings(prompts=prompts):
+        # Require some Debian/Ubuntu packages
+        for package in packages:
+            print '=' * 20
+            print package
+            sudo('apt-get install %s' % (package))
+        sudo('pip install psycopg2')
 
 def setup(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, branch=DEFAULT_BRANCH):
     """
@@ -176,21 +178,23 @@ def setup(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, branch=DEFAULT_BRANCH)
     env.hosts = DEPLOYMENT_HOSTS[deploy_to]
 
     with settings(warn_only=True):
-        with settings(prompts=prompts):
-            # Require some Debian/Ubuntu packages
-            fabtools.require.deb.packages([
-                'git',
-                'npm',
-                'libpq-dev',
-                'python-dev',
-                'postgresql',
-                'postgresql-contrib',
-                'nginx',
-                'gunicorn',
-                'sqlite3',
-                'node-less',
-                'gettext'
-            ])
+        # with settings(prompts=prompts):
+        #     # Require some Debian/Ubuntu packages
+        #     fabtools.require.deb.packages([
+        #         'git',
+        #         'npm',
+        #         'libpq-dev',
+        #         'python-dev',
+        #         'postgresql',
+        #         'postgresql-contrib',
+        #         'nginx',
+        #         'gunicorn',
+        #         'sqlite3',
+        #         'node-less',
+        #         'gettext'
+        #     ])
+
+        install_packages(deploy_to=deploy_to)
 
         try:
             run('ln -s /usr/bin/nodejs /usr/bin/node')
@@ -294,6 +298,10 @@ def update_permissions(deploy_to=DEFAULT_DEPLOY_TO, mode=DEFAULT_MODE, setup=Fal
     _update_permissions(setup=setup)
     restart_nginx()
     restart_gunicorn()
+
+def update_private_files(deploy_to=DEFAULT_DEPLOY_TO):
+    env.hosts = DEPLOYMENT_HOSTS[deploy_to]
+    _update_private_settings_file(deploy_to=deploy_to)
 
 def update_conf_files(deploy_to=DEFAULT_DEPLOY_TO, restart=True):
     """
@@ -405,9 +413,9 @@ def migrate(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, env_variables=None,
             django_db_pass = private_settings.DB_PASS
 
             print '> Checking database backend'
-            # with settings(prompts={
-            #     "Login password for 'django': ": django_db_pass}):
-            #     run('echo "from django.db import connection; connection.vendor" | python manage.py shell')
+            with settings(prompts={
+                "Login password for 'django': ": django_db_pass}):
+                run('echo "from django.db import connection; connection.vendor" | python manage.py shell')
 
 
             with settings(prompts={
@@ -421,18 +429,18 @@ def migrate(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, env_variables=None,
                             run('rm -rf app/migrations')
                         run('python manage.py sqlclear app | python manage.py dbshell ')
 
-                sudo('python manage.py makemigrations')
+                run('python manage.py makemigrations')
                 if setup:
-                    sudo('python manage.py migrate --fake-initial') 
-                    sudo('python manage.py makemigrations app')
-                    sudo('python manage.py migrate app') 
+                    run('python manage.py migrate --fake-initial') 
+                    run('python manage.py makemigrations app')
+                    run('python manage.py migrate app') 
                 elif reset_db:
-                    sudo('python manage.py migrate --fake')     
-                    sudo('python manage.py makemigrations app')
-                    sudo('python manage.py migrate --fake-initial')
-                    sudo('python manage.py migrate')
+                    run('python manage.py migrate --fake')     
+                    run('python manage.py makemigrations app')
+                    run('python manage.py migrate --fake-initial')
+                    run('python manage.py migrate')
                 else:
-                    sudo('python manage.py migrate')
+                    run('python manage.py migrate')
             if mode == 'dev' or reset_db:
                 if generate_dummy_data or reset_db:
                     sudo('python manage.py generate_models 3 --reset')
