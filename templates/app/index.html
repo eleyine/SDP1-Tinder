@@ -23,7 +23,11 @@
             <ul>
             {% for participant in participants %}
                 <li class="pane pane{{forloop.counter}}" data-participant-id="{{participant.id}}" data-name="{{participant.first_name}}">
+                    {% if participant.picture %}
                     <div class="img" style="background:url('{% static participant.picture.url %}') no-repeat top center;"></div>
+                    {% else %}
+                    <div class="img" style="background:#eee;"></div>
+                    {% endif %}
                     <div class="info">
                     <p class="text">{{participant.first_name}}, {{participant.age}}</p>
                     <div class="friends"></div>
