@@ -1,9 +1,9 @@
 # Source for /etc/nginx/sites-enabled/django
-server {
-    listen 80;
-    server_name DOMAIN_NAME;
-    # rewrite ^/(.*) https://DOMAIN_NAME/$1 permanent;
-}
+# server {
+#     listen 80;
+#     server_name DOMAIN_NAME;
+#     # rewrite ^/(.*) https://DOMAIN_NAME/$1 permanent;
+# }
 
 upstream app_server {
     server 127.0.0.1:9000 fail_timeout=0;
@@ -18,7 +18,7 @@ server {
     index index.html index.htm;
 
     client_max_body_size 4G;
-    # server_name DOMAIN_NAME;
+    server_name DOMAIN_NAME;
     # ssl_certificate /home/ssl/DOMAIN_NAME.chained.crt;
     # ssl_certificate_key /home/ssl/DOMAIN_NAME.key;
 
