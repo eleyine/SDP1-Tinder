@@ -78,10 +78,10 @@ else:
 ########### PATH AND PROJECT NAME CONFIGURATION
 # Should not change if you do not modify this GitHub project
 GITHUB_PROJECT = 'https://github.com/eleyine/SDP1-Tinder.git'
-DJANGO_PROJECT_DIR = '/home/django'
+DJANGO_PROJECT_DIR = '/home/django/'
 DJANGO_PROJECT_NAME = 'sdp1_tinder'
 DJANGO_APP_NAME = 'app'
-DJANGO_PROJECT_PATH = os.path.join(DJANGO_PROJECT_DIR, DJANGO_PROJECT_NAME)
+DJANGO_PROJECT_PATH = os.path.join(DJANGO_PROJECT_DIR, DJANGO_PROJECT_NAME + '/')
 APPS = ('app',)
 DOMAIN_NAME = 'test.example.com' # important for nginx setup
 ########### END PATH AND PROJECT NAME CONFIGURATION
@@ -213,6 +213,7 @@ def setup(mode=DEFAULT_MODE, deploy_to=DEFAULT_DEPLOY_TO, branch=DEFAULT_BRANCH)
             with cd(DJANGO_PROJECT_DIR):
                 print 'Cloning Github Project into %s...' % (DJANGO_PROJECT_NAME)
                 run('git clone %s %s' % (GITHUB_PROJECT, DJANGO_PROJECT_NAME)) 
+        put_media(deploy_to=deploy_to)
 
         with cd(DJANGO_PROJECT_PATH):
             pull_changes(mode=mode, deploy_to=deploy_to, branch=branch)
@@ -638,6 +639,18 @@ def get_media(deploy_to=DEFAULT_DEPLOY_TO):
         local('mkdir -p %s' % (log_dir))
     with settings(hide('warnings')): 
         get(remote_path="%s/media" % (DJANGO_PROJECT_PATH), local_path="%s" % (log_dir))
+
+def put_media(deploy_to=DEFAULT_DEPLOY_TO):
+    """
+    Copy local media folder to server
+    """
+    print '\nCopying media from local to server'
+    local_media_dir = os.path.join(LOCAL_DJANGO_PATH, 'media')
+    remote_media_dir = os.path.join(DJANGO_PROJECT_PATH, 'media')
+
+    with cd(DJANGO_PROJECT_PATH):
+        with settings(hide('warnings')): 
+            put(local_media_dir, remote_media_dir)
 
 def generate_models(n=3, mode=DEFAULT_MODE):
     env_variables = _get_env_variables(mode=mode) 
