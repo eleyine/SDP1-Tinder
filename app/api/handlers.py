@@ -51,7 +51,7 @@ class UserVoteStats(APIView):
         for i, user in enumerate(users):
             datapoint = {
                 'name': user.full_name(), 
-                'y': user.num_votes
+                'y': user.get_num_votes(event=event)
                 }
             if i == 0:
                 datapoint['selected'] = True
@@ -68,12 +68,12 @@ class UserSwipeStats(APIView):
         user_data = UserProfileSerializer(users, many=True).data
         if is_percentage:
             for user_obj, user_dict in zip(users, user_data):
-                user_dict['right'] = user_obj.get_pct_right_swipes()
+                user_dict['right'] = user_obj.get_pct_right_swipes(event=event)
                 user_dict['left'] = 100 - user_dict['right'] if user_dict['right'] else None
         else:
             for user_obj, user_dict in zip(users, user_data):
-                user_dict['right'] = user_dict['num_right_swipes']
-                user_dict['left'] = user_dict['num_left_swipes']
+                user_dict['right'] = user_obj.get_num_right_swipes(event=event)
+                user_dict['left'] = user_obj.get_num_left_swipes(event=event)
 
         user_data = sorted(user_data, key=lambda k: -k['right'])
         print "USER DATA", user_data

@@ -53,7 +53,7 @@ class UserProfile(models.Model):
 
     def get_num_right_swipes(self, event=None):
         if event:
-            right_swipes = SwipeAction.filter(on_user=self, 
+            right_swipes = SwipeAction.objects.filter(on_user=self, 
                 is_right=True, is_vote=False, event=event).count()
         else:
             right_swipes = self.num_right_swipes
@@ -61,7 +61,7 @@ class UserProfile(models.Model):
 
     def get_num_left_swipes(self, event=None):
         if event:
-            left_swipes = SwipeAction.filter(on_user=self, 
+            left_swipes = SwipeAction.objects.filter(on_user=self, 
                 is_right=False, is_vote=False, event=event).count()
         else:
             left_swipes = self.num_left_swipes
@@ -69,13 +69,13 @@ class UserProfile(models.Model):
 
     def get_num_total_swipes(self, event=None):
         if event:
-            return SwipeAction.objects.filter(on_user=self, is_vote=False, event=event)
+            return SwipeAction.objects.filter(on_user=self, is_vote=False, event=event).count()
         else:
             return self.num_right_swipes + self.num_left_swipes
 
     def get_num_votes(self, event=None):
         if event:
-            return SwipeAction.objects.filter(on_user=self, is_vote=True, event=event)
+            return SwipeAction.objects.filter(on_user=self, is_vote=True, event=event).count()
         else:
             return self.num_votes
 
