@@ -16,7 +16,11 @@ class IndexView(generic.ListView):
             raise Http404
 
     def get_queryset(self, **kwargs):
-        participants = self.get_event().participants.all()
+        participants = list(self.get_event().participants.all())
+        # randomize participants
+        import random
+        result = random.shuffle(participants)
+        print len(participants)
         return participants
 
 class StatsView(generic.TemplateView):
