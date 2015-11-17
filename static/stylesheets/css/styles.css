@@ -113,7 +113,8 @@ body {
 
 #tinderslide li {
     display: block;
-    width: 100%;
+    width: 90%;
+    margin-left: 5%;
     height: 95%;
     overflow: hidden;
     position: absolute;
@@ -163,7 +164,7 @@ body {
     -ms-transform: translate(0px, 16px) scale(0.96, 1);
     -o-transform: translate(0px, 16px) scale(0.96, 1);
     transform: translate(0px, 16px) scale(0.96, 1);
-    z-index: 2;
+    z-index: 0;
 }
 
 #tinderslide li.pane[data-stack-index="1"] {
@@ -182,7 +183,11 @@ body {
     -webkit-transform: scale(1, 1); 
     -o-transform: scale(1, 1);
     transform: scale(1, 1);
-    z-index: 4;
+    z-index: 400;
+}
+
+#tinderslide li.pane[data-stack-index="1"] img {
+    z-index: 300;
 }
 #tinderslide li.pane[data-stack-index="2"] {
 /*    -webkit-transform: rotate(-1deg);
@@ -195,7 +200,7 @@ body {
     -ms-transform: translate(0px, 8px) scale(0.98, 1);
     -o-transform: translate(0px, 8px) scale(0.98, 1);
     transform: translate(0px, 8px) scale(0.98, 1);
-    z-index: 3;
+    z-index: 0;
 }
 
 #tinderslide ul.discarded .pane {
