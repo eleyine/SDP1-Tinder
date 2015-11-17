@@ -11,6 +11,12 @@ class UserProfileAdmin(admin.ModelAdmin):
             'num_views',
             'age',   
         )
+class EventAdmin(admin.ModelAdmin):
+    list_display = (
+            'name',
+            'is_active',
+            'get_num_participants',  
+        )
 admin.site.register(UserProfile, UserProfileAdmin)
-admin.site.register(Event)
+admin.site.register(Event, EventAdmin)
 admin.site.register(SwipeAction)
