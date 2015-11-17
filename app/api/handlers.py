@@ -46,7 +46,7 @@ class UserVoteStats(APIView):
     """
     def get(self, request, format=None):
         event = get_active_event()
-        users = event.participants.filter(event=event).order_by('-num_votes', 'first_name').all()
+        users = event.participants.order_by('-num_votes', 'first_name').all()
         series = []
         for i, user in enumerate(users):
             datapoint = {
@@ -64,7 +64,7 @@ class UserSwipeStats(APIView):
     """
     def get(self, request, is_percentage=False, format=None):
         event = get_active_event()
-        users = event.participants.filter(event=event).order_by('-num_right_swipes', 'num_left_swipes', 'first_name').all()
+        users = event.participants.order_by('-num_right_swipes', 'num_left_swipes', 'first_name').all()
         user_data = UserProfileSerializer(users, many=True).data
         if is_percentage:
             for user_obj, user_dict in zip(users, user_data):
