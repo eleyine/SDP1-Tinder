@@ -55,10 +55,7 @@
         var onLikeOrDislike = function (isLike, item) {
             var uid = item.data('participant-id');
             var url = isLike? context.swipeRightUrl(uid): context.swipeLeftUrl(uid);
-            console.log(url);
             var swipeDirection = isLike? 'right': 'left';
-            console.log(typeof uid);
-            console.log(uid);
             if (typeof uid !== "undefined") {
                 $.ajax({
                     url: url,
