@@ -75,13 +75,13 @@ class UserSwipeStats(APIView):
                 user_dict['right'] = user_obj.get_num_right_swipes(event=event)
                 user_dict['left'] = user_obj.get_num_left_swipes(event=event)
 
-        user_data = sorted(user_data, key=lambda k: -k['right'])
-        print "USER DATA", user_data
+        combined_user_data = [ (i, j) for i, j in zip(users, user_data)]
+        combined_user_data = sorted(combined_user_data, key=lambda k: -k[1]['right'])
 
         categories = []
         right = []
         left = []
-        for user_obj, user_dict in zip(users, user_data):
+        for user_obj, user_dict in combined_user_data:
             categories.append(user_obj.full_name())
             right.append(user_dict['right'])
             left.append(user_dict['left'])
